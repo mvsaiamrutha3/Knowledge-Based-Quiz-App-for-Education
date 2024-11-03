@@ -3,13 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = ({ search, setSearch }) => {
   const navigate = useNavigate();
+  
   const handleLogOut = () => {
     localStorage.removeItem("authToken");
     navigate("../");
   };
+  
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-primary" style={{ position: 'sticky', top: 0, zIndex: 1000 }}>
         <div className="container-fluid">
           <Link className="navbar-brand fs-1 fst-italic" to="/">
             Quizz!!
@@ -25,14 +27,11 @@ const Navbar = ({ search, setSearch }) => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div
-            className="collapse navbar-collapse justify-content-between"
-            id="navbarNav"
-          >
+          <div className="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
                 <Link
-                  className="nav-link active fs-5m fs-4"
+                  className="nav-link active fs-5 fs-4"
                   aria-current="page"
                   to="/home"
                 >
@@ -41,7 +40,7 @@ const Navbar = ({ search, setSearch }) => {
               </li>
             </ul>
             <ul>
-              <div className="search-container" style={{zIndex:0}}>
+              <div className="search-container">
                 <form className="d-flex me-5">
                   <input
                     className="form-control me-2"

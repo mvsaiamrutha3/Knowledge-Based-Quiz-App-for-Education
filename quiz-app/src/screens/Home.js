@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Card from "../components/Card";
+import { useNavigate } from 'react-router-dom';
+
 
 
 
@@ -8,6 +10,11 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [topics, setTopics] = useState([]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleCreateQuiz = () => {
+    navigate('/createquiz');
+  };
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -46,7 +53,7 @@ const Home = () => {
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
           {/* <button className="closebtn btn btn-dark" onClick={toggleSidebar}>&times;</button> */}
           <div className="sidebar-options">
-            <button className="btn btn-secondary my-2 w-100">Create Quiz</button>
+            <button className="btn btn-secondary my-2 w-100" onClick={handleCreateQuiz}>Create Quiz</button>
             <button className="btn btn-secondary my-2 w-100">History</button>
             <button className="btn btn-secondary my-2 w-100">Settings</button>
           </div>

@@ -8,6 +8,7 @@ import Login from "./screens/Login.js";
 import Intro from "./screens/Intro.js";
 import Question from "./screens/Question.js";
 import Home from "./screens/Home.js";
+import AddQue from "./screens/AddQue.js";
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
           <Route path="/home" element={<Home/>}/> 
           <Route path="/login" element={<Login/>}/>
           <Route path="/signup" element={<SignUp/>}/>  
-          <Route path="/questions" element={<Question/>}/>       
+          <Route path="/questions" element={<Question/>}/> 
+          <Route path="/createquiz" element={<AddQue/>}/>  
+
         </Routes>
       </div>
     </Router>

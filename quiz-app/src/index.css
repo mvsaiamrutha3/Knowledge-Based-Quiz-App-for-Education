@@ -68,7 +68,7 @@ body {
 /* Ensure sidebar and main content are aligned */
 .d-flex {
   display: flex;
-  height: calc(100vh - 40px); /* Adjust height based on navbar height */
+  height: 30 px; /* Adjust height based on navbar height */
 }
 
 .bg-dark {
@@ -76,10 +76,9 @@ body {
 }
 
 .search-container {
-  position: fixed;
+  position:absolute;
   top: 30px; /* Adjust based on the navbar height */
   left: 40%;
-  z-index: 1000;
 }
 
 /* CSS */
@@ -126,5 +125,40 @@ body {
 .option-box.incorrect {
   background-color: #dc3545 !important; 
 }
+
+.container-quiz {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  height: auto;
+}
+
+.question-box-container {
+  width: 78%;
+  border: 2px solid white;
+  padding: 36px;
+  margin-right: 20px;
+  margin-top: 40px;
+  height: 378px;
+
+}
+
+.timer-box-container {
+  width: 22%;
+  border: 2px solid white;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  height: 378px;
+}
+
+.main-content {
+  margin-top: 56px; /* Adjust according to your navbar height */
+}
+
 
 

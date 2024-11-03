@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Clock from "../components/Clock/Clock"; // Import Clock Component
 
 const Questions = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const Questions = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [total, setTotal] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(true); // Control timer
 
   useEffect(() => {
     if (data) {
@@ -21,25 +23,39 @@ const Questions = () => {
     setCompleted(false);
   }, [data]);
 
+  useEffect(() => {
+    // Reset timer and state when the question changes
+    setTimerRunning(true);
+    setChosenOption("");
+    setIsChecked(false);
+  }, [currentQuestionIndex]);
+
   const handleOptionSelect = (option) => {
-    setChosenOption(option);
+    if (!isChecked) {
+      setChosenOption(option);
+      setIsChecked(true); // Mark the answer as checked
+      setTimerRunning(false); // Stop the timer when an option is selected
+      if (option === currentQuestion.correct) {
+        setTotal((prevTotal) => prevTotal + 10); // Add points for correct answer
+      }
+      setTimeout(() => {
+        moveToNextQuestion(); // Move to next question after 1 second
+      }, 2000);
+    }
   };
 
-  const handleNext = () => {
+  const moveToNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setChosenOption("");
-      setIsChecked(false);
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     } else {
-      setCompleted(true);
+      setCompleted(true); // All questions completed
     }
   };
 
-  const handleCheck = () => {
-    setIsChecked(true);
-    if (chosenOption === currentQuestion.correct) {
-      setTotal(total + 10);
-    }
+  const onTimeUp = () => {
+    setIsChecked(true); // Mark the question as checked when time is up
+    setTimerRunning(false); // Stop the timer
+    setCompleted(true);
   };
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -47,24 +63,28 @@ const Questions = () => {
   return (
     <div>
       <Navbar />
-      {completed ? (
+      {questions.length === 0 ? ( // Check if there are no questions
+        <div className="container mt-4 mb-4 p-4 border border-white rounded" style={{ width: "45%", height: "auto" }}>
+          <h1 className="m-4" style={{ textAlign: "center" }}>
+            No questions available
+          </h1>
+        </div>
+      ) : completed ? (
         <div>
           <div
             className="container mt-4 mb-4 p-4 border border-white rounded"
-            style={{ width: "65%", height: "auto" }}
+            style={{ width: "45%", height: "auto" }}
           >
             <h1 className="m-4" style={{ textAlign: "left" }}>
               Total Points: {total}
             </h1>
-           
           </div>
         </div>
       ) : (
-        <div>
-          <div
-            className="container mt-4 mb-4 p-4 border border-white rounded"
-            style={{ width: "65%", height: "auto" }}
-          >
+        <div className="container-quiz">
+          {/* Left Side: Questions and Options */}
+          <div className="question-box-container">
+            <h3 className="mb-2">Question: {currentQuestionIndex + 1}</h3>
             {currentQuestion ? (
               <>
                 <div className="question-box bg-primary text-white p-3 mb-4">
@@ -87,7 +107,7 @@ const Questions = () => {
                             ? "incorrect"
                             : ""
                         }`}
-                        onClick={() => !isChecked && handleOptionSelect(option)}
+                        onClick={() => handleOptionSelect(option)}
                         style={{ cursor: isChecked ? "not-allowed" : "pointer" }}
                       >
                         <span className="option-text">{option}</span>
@@ -95,26 +115,24 @@ const Questions = () => {
                     </div>
                   ))}
                 </div>
-                <div className="col">
-                  <button
-                    className="btn btn-danger me-5"
-                    onClick={handleCheck}
-                    disabled={!chosenOption || isChecked}
-                  >
-                    Check
-                  </button>
-                  <button
-                    className="btn btn-success"
-                    onClick={handleNext}
-                    disabled={!isChecked}
-                  >
-                    Next
-                  </button>
-                </div>
               </>
             ) : (
               <div>No question available</div>
             )}
+          </div>
+
+          {/* Right Side: Clock and Total Points */}
+          <div className="timer-box-container">
+            {/* Clock Component */}
+            <Clock
+              initialTime={20} // Set your initial timer here (e.g., 20 seconds)
+              isRunning={timerRunning}
+              onTimeUp={onTimeUp} // Function to handle when time is up
+            />
+            {/* Total Points */}
+            <h4 style={{ marginTop: "10px", marginBottom: "40px" }}>
+              Total Points: {total}
+            </h4>
           </div>
         </div>
       )}
