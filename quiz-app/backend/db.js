@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const mongoURI =<Place your mongodb url>
+const mongoURI =<Put your mongodb url>
 
 
 const mondoDB = async () => {
