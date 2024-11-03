@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const mongoURI ="mongodb+srv://mvsa:mvsa@cluster0.tfizzuc.mongodb.net/quizApp?retryWrites=true&w=majority&appName=Cluster0"
+const mongoURI =<Place your mongodb url>
 
 
 const mondoDB = async () => {
